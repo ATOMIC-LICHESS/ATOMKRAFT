@@ -2033,6 +2033,9 @@ split_point_start: // At split points actual search starts from here
         dbg_print_hit_rate();
 
         // Send info on searched nodes as soon as we return to root
+	cout << "info" << speed_to_uci(pos.nodes_searched()) << endl;
+	// not sure why "SendSearchedNodes" is useful? Just send it here,
+	// maybe useful when in parallel
         SendSearchedNodes = true;
     }
 
