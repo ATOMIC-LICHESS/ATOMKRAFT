@@ -2201,6 +2201,7 @@ split_point_start: // At split points actual search starts from here
     StateInfo state[PLY_MAX_PLUS_2], *st = state;
     TTEntry* tte;
     int ply = 1;
+    Key SAVE[PLY_MAX_PLUS_2]; int H=0;
 
     assert(pv[0] != MOVE_NONE && pos.move_is_legal(pv[0]));
 
@@ -2212,9 +2213,12 @@ split_point_start: // At split points actual search starts from here
            && ply < PLY_MAX
            && (!pos.is_draw<false>() || ply < 2))
     {
+      for (int h=0;h<H;h++) if (pos.get_key()==SAVE[h]) goto EXIT;
+      SAVE[H++]=pos.get_key();    // modification so that reps are not repeated
         pv[ply] = tte->move();
         pos.do_move(pv[ply++], *st++);
     }
+  EXIT:
     pv[ply] = MOVE_NONE;
 
     do pos.undo_move(pv[--ply]); while (ply);
@@ -2275,9 +2279,21 @@ split_point_start: // At split points actual search starts from here
 #endif
       << " pv ";
 
+#if 0 // curtail repetitious PVs
     for (Move* m = pv; *m != MOVE_NONE; m++)
         s << *m << " ";
-
+#else
+    Key Z,SAVE[PLY_MAX_PLUS_2]; int H=0; int ply=0;
+    StateInfo state[PLY_MAX_PLUS_2], *st = state;
+    while (pv[ply]!=MOVE_NONE)
+    {Z=pos.get_key();
+     for (int h=0;h<H;h++) if (pos.get_key()==SAVE[h]) goto EXIT;
+     SAVE[H++]=pos.get_key();    // modification so that reps are not repeated
+     s << pv[ply] << " "; pos.do_move(pv[ply++],*st++);
+    }
+  EXIT:
+    do pos.undo_move(pv[--ply]); while (ply);
+#endif
     return s.str();
   }
 
