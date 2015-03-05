@@ -146,7 +146,9 @@ int get_system_time() {
 #else
   struct timeval t;
   // ERROR: gettimeofday(&t, NULL);
-  return clock() * ((clock_t)1000 / CLOCKS_PER_SEC);// t.tv_sec * 1000 + t.tv_usec / 1000;
+  //  return clock() * ((clock_t)1000 / CLOCKS_PER_SEC);// t.tv_sec * 1000 + t.tv_usec / 1000; // bad, wehn CLOCKS_PER_SEC exceeds 1000
+
+  return clock() * (clock_t) 1000 / CLOCKS_PER_SEC;
 #endif
 }
 
