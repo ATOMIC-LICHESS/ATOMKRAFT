@@ -274,6 +274,7 @@ namespace {
   void do_skill_level(Move* best, Move* ponder);
 
   int current_search_time(int set = 0);
+  int current_cpu_usage(int set = 0);
   std::string value_to_uci(Value v);
   std::string speed_to_uci(int64_t nodes);
   void poll(const Position& pos);
@@ -376,6 +377,7 @@ bool think(Position& pos, const SearchLimits& limits, Move searchMoves[], Move& 
   StopOnPonderhit = StopRequest = QuitRequest = AspirationFailLow = SendSearchedNodes = false;
   NodesSincePoll = 0;
   current_search_time(get_system_time());
+  current_cpu_usage(get_cpu_usage());
   Limits = limits;
   TimeMgr.init(Limits, pos.startpos_ply_counter());
   
@@ -1912,6 +1914,13 @@ split_point_start: // At split points actual search starts from here
     return get_system_time() - searchStartTime;
   }
 
+  int current_cpu_usage(int set) {
+
+    static int save;
+    if (set) save=set;
+    return get_cpu_usage()-save;
+  }
+
 
   // value_to_uci() converts a value to a string suitable for use with the UCI
   // protocol specifications:
@@ -1940,8 +1949,10 @@ split_point_start: // At split points actual search starts from here
 
     std::stringstream s;
     int t = current_search_time();
+    int us = current_cpu_usage();
     HACK_NPS = t>0 ? (nodes*1000)/t : 0;
-    s << " nodes " << nodes << " nps "   << HACK_NPS << " time "  << t;
+    s << " nodes " << nodes << " nps "   << HACK_NPS << " time "  << t
+      << " cpuload " << (t>0 ? (1000*us)/t : 0);
     return s.str();
   }
 
