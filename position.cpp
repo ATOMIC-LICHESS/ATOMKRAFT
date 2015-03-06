@@ -2504,6 +2504,8 @@ bool Position::is_draw() const {
       return true;
 
   // Draw by repetition?
+
+#if 0
   if (false && !SkipRepetition) // not working in Atomic :(
   {
       int i = 4, e = Min(st->rule50, st->pliesFromNull);
@@ -2525,7 +2527,14 @@ bool Position::is_draw() const {
 	    }
       }
   }
-
+#else // here is the SF 2.1.1 code, not sure what ATOMKRAFT was doing ?
+      // seems to have mixed-matched from later code, with state->previous
+      // rather than history to detect draws
+  for (int i = 4, e = Min(Min(st->gamePly, st->rule50), st->pliesFromNull);
+       i <= e; i += 2)
+    if (history[st->gamePly - i] == st->key)
+      return true;
+#endif
   return false;
 }
 
