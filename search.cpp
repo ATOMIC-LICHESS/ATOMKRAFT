@@ -59,6 +59,7 @@ namespace {
   // Different node types, used as template parameter
   enum NodeType { NonPV, PV };
 
+  int64_t HACK_NPS;
   // RootMove struct is used for moves at the root of the tree. For each root
   // move, we store two scores, a node count, and a PV (really a refutation
   // in the case of moves which fail low). Value pv_score is normally set at
@@ -379,6 +380,7 @@ bool think(Position& pos, const SearchLimits& limits, Move searchMoves[], Move& 
   TimeMgr.init(Limits, pos.startpos_ply_counter());
   
   NEW pos.set_nodes_searched(0);
+  HACK_NPS = 0;
 
   NEW // when debugging we want more polls
 #ifdef NDEBUG
@@ -1938,11 +1940,8 @@ split_point_start: // At split points actual search starts from here
 
     std::stringstream s;
     int t = current_search_time();
-
-    s << " nodes " << nodes
-      << " nps "   << (t > 0 ? int(nodes * 1000 / t) : 0)
-      << " time "  << t;
-
+    HACK_NPS = t>0 ? (nodes*1000)/t : 0;
+    s << " nodes " << nodes << " nps "   << HACK_NPS << " time "  << t;
     return s.str();
   }
 
@@ -1966,6 +1965,7 @@ split_point_start: // At split points actual search starts from here
 
     static int lastInfoTime;
     int t = current_search_time();
+    // this was *user* time so needed parallel accounting!
     
     //NEW cout << "POLL" << endl;
     
@@ -2028,15 +2028,20 @@ split_point_start: // At split points actual search starts from here
     else if (t - lastInfoTime >= 1000)
     {
         lastInfoTime = t;
+	// seems that every thread has its own poll and lastInfoTime ?
 
         dbg_print_mean();
         dbg_print_hit_rate();
 
-        // Send info on searched nodes as soon as we return to root
-	cout << "info" << speed_to_uci(pos.nodes_searched()) << endl;
-	// not sure why "SendSearchedNodes" is useful? Just send it here,
-	// maybe useful when in parallel
+	cout << "info time " << t << endl; // redundant, useful for debug loc
+	if (Options["Threads"].value<int>()==1)
+	  cout << "info" << speed_to_uci(pos.nodes_searched()) << endl;
+	else // in parallel, lie about it with HACK_NPS...
+	  cout << "info" << speed_to_uci(HACK_NPS * t/1000) << endl;	  
+	// immediate node count does not work with parallel (fixed in later SF)
+	// seems parallel crash was only repetition detection thankfully
         SendSearchedNodes = true;
+        // Send info on searched nodes as soon as we return to root
     }
 
     // Should we stop the search?
