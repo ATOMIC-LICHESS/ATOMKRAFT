@@ -144,11 +144,15 @@ int get_system_time() {
   _ftime(&t);
   return int(t.time * 1000 + t.millitm);
 #else
-  struct timeval t;
+#include <sys/time.h>
+  struct timeval t; int64_t x;
   // ERROR: gettimeofday(&t, NULL);
-  //  return clock() * ((clock_t)1000 / CLOCKS_PER_SEC);// t.tv_sec * 1000 + t.tv_usec / 1000; // bad, wehn CLOCKS_PER_SEC exceeds 1000
-
-  return clock() * (clock_t) 1000 / CLOCKS_PER_SEC;
+  //  return clock() * ((clock_t)1000 / CLOCKS_PER_SEC);// t.tv_sec * 1000 + t.tv_usec / 1000; // bad, when CLOCKS_PER_SEC exceeds 1000
+  //  return clock() * (clock_t) 1000 / CLOCKS_PER_SEC;
+  // want wall time, not user time
+  gettimeofday (&t, NULL);
+  x = t.tv_sec * 1000000 + t.tv_usec;
+  return x/1000;
 #endif
 }
 
