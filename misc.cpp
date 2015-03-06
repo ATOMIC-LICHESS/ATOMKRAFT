@@ -156,6 +156,10 @@ int get_system_time() {
 #endif
 }
 
+int get_cpu_usage()
+{
+  return clock() * (clock_t) 1000 / CLOCKS_PER_SEC;
+}
 
 /// cpu_count() tries to detect the number of CPU cores
 
