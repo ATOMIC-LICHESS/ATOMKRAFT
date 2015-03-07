@@ -1,5 +1,4 @@
 
-EXE = atomkraft
 SRCS = atomicdata.cpp bitbase.cpp bitboard.cpp book.cpp create_book.cpp \
        debug.cpp endgame.cpp evaluate.cpp main.cpp main_uci.cpp material.cpp \
        misc.cpp move.cpp movegen.cpp movepick.cpp pawns.cpp pgn.cpp \
@@ -16,7 +15,7 @@ OBJS = $(SRCS:.cpp=.o)
 OPTIONS = -O2 -DNDEBUG -Wall
 
 all: depend atomkraft
-%.o : %.cpp $(DEPS) Makefile
+%.o : %.cpp Makefile
 	g++ $(OPTIONS) -o $@ -c $<
 atomkraft: $(HEADERS) $(OBJS) Makefile
 	g++ -o atomkraft $(OBJS) -lm -lstdc++ -lpthread
