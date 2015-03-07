@@ -1951,8 +1951,9 @@ split_point_start: // At split points actual search starts from here
     int t = current_search_time();
     int us = current_cpu_usage();
     HACK_NPS = t>0 ? (nodes*1000)/t : 0;
-    s << " nodes " << nodes << " nps "   << HACK_NPS << " time "  << t
-      << " cpuload " << (t>0 ? (1000*us)/t : 0);
+    s << " nodes " << nodes << " nps " << HACK_NPS << " time " << t;
+    if (t>1000) s << " cpuload " << (t>0 ? (1000*us)/t : 0)
+		  << " hashfull " << TT.full (nodes);
     return s.str();
   }
 
