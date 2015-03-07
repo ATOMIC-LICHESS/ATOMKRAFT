@@ -11,5 +11,6 @@ atomkraft
 Makefile
 Makefile.in
 .deps
-*.o
 .*.swp
+*.o
+*.tar.gz

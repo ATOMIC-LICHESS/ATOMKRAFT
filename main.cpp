@@ -76,7 +76,7 @@ int main(int argc, char* argv[]) {
 	// Print copyright notice
 	cout << engine_name() << endl;
 	cout << "by " << engine_authors() << endl;
-	cout << "built " << __DATE__ << " " << __TIME__ << endl << endl;
+	cout << "built " << __DATE__ << " " << __TIME__ << " with GNU C++ " << __VERSION__ << endl << endl;
 	
 	if (CpuHasPOPCNT)
 		cout << "Good! CPU has hardware POPCNT." << endl;

@@ -104,7 +104,7 @@ am_atomkraft_OBJECTS = atomicdata.$(OBJEXT) bitbase.$(OBJEXT) \
 	tuning.$(OBJEXT) types.$(OBJEXT) uci.$(OBJEXT) \
 	ucioption.$(OBJEXT)
 atomkraft_OBJECTS = $(am_atomkraft_OBJECTS)
-atomkraft_DEPENDENCIES =
+atomkraft_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_$(V))
 am__v_P_ = $(am__v_P_$(AM_DEFAULT_VERBOSITY))
 am__v_P_0 = false
@@ -195,7 +195,7 @@ CXX = g++
 CXXDEPMODE = depmode=gcc3
 CXXFLAGS = -g -O2
 CYGPATH_W = echo
-DEFS = -DPACKAGE_NAME=\"atomkraft\" -DPACKAGE_TARNAME=\"atomkraft\" -DPACKAGE_VERSION=\"0.1\" -DPACKAGE_STRING=\"atomkraft\ 0.1\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DPACKAGE=\"atomkraft\" -DVERSION=\"0.1\" -DHAVE_LIBM=1 -DHAVE_LIBSTDC__=1 -DHAVE_LIBPTHREAD=1 -DNDEBUG=1 -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_SYS_TIME_H=1 -DHAVE__BOOL=1 -DHAVE_STDBOOL_H=1 -DTIME_WITH_SYS_TIME=1 -DHAVE_FORK=1 -DHAVE_VFORK=1 -DHAVE_WORKING_VFORK=1 -DHAVE_WORKING_FORK=1 -DHAVE_STDLIB_H=1 -DHAVE_MALLOC=1 -DHAVE_STDLIB_H=1 -DHAVE_REALLOC=1 -DHAVE_SYS_SELECT_H=1 -DHAVE_SYS_SOCKET_H=1 -DSELECT_TYPE_ARG1=int -DSELECT_TYPE_ARG234=\(fd_set\ \*\) -DSELECT_TYPE_ARG5=\(struct\ timeval\ \*\) -DRETSIGTYPE=void -DHAVE_VPRINTF=1 -DHAVE_DUP2=1 -DHAVE_FLOOR=1 -DHAVE_GETTIMEOFDAY=1 -DHAVE_MEMCHR=1 -DHAVE_MEMMOVE=1 -DHAVE_SELECT=1 -DHAVE_STRCHR=1 -DHAVE_STRDUP=1 -DHAVE_STRERROR=1 -DHAVE_STRSTR=1
+DEFS = -DPACKAGE_NAME=\"atomkraft\" -DPACKAGE_TARNAME=\"atomkraft\" -DPACKAGE_VERSION=\"1.0.0\" -DPACKAGE_STRING=\"atomkraft\ 1.0.0\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DPACKAGE=\"atomkraft\" -DVERSION=\"1.0.0\" -DHAVE_LIBSTDC__=1 -DHAVE_LIBM=1 -DHAVE_LIBPTHREAD=1 -DNDEBUG=1 -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_SYS_TIME_H=1 -DHAVE__BOOL=1 -DHAVE_STDBOOL_H=1 -DTIME_WITH_SYS_TIME=1 -DHAVE_FORK=1 -DHAVE_VFORK=1 -DHAVE_WORKING_VFORK=1 -DHAVE_WORKING_FORK=1 -DHAVE_STDLIB_H=1 -DHAVE_MALLOC=1 -DHAVE_STDLIB_H=1 -DHAVE_REALLOC=1 -DHAVE_SYS_SELECT_H=1 -DHAVE_SYS_SOCKET_H=1 -DSELECT_TYPE_ARG1=int -DSELECT_TYPE_ARG234=\(fd_set\ \*\) -DSELECT_TYPE_ARG5=\(struct\ timeval\ \*\) -DRETSIGTYPE=void -DHAVE_VPRINTF=1 -DHAVE_DUP2=1 -DHAVE_FLOOR=1 -DHAVE_GETTIMEOFDAY=1 -DHAVE_MEMCHR=1 -DHAVE_MEMMOVE=1 -DHAVE_SELECT=1 -DHAVE_STRCHR=1 -DHAVE_STRDUP=1 -DHAVE_STRERROR=1 -DHAVE_STRSTR=1
 DEPDIR = .deps
 ECHO_C = 
 ECHO_N = -n
@@ -210,7 +210,7 @@ INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 LDFLAGS = 
 LIBOBJS = 
-LIBS = -lpthread -lstdc++ -lm 
+LIBS = -lpthread -lm -lstdc++ 
 LTLIBOBJS = 
 MAKEINFO = ${SHELL} /home/dand/Public/Programs/Chess/ATOMKRAFT/missing makeinfo
 MKDIR_P = /usr/bin/mkdir -p
@@ -218,15 +218,15 @@ OBJEXT = o
 PACKAGE = atomkraft
 PACKAGE_BUGREPORT = 
 PACKAGE_NAME = atomkraft
-PACKAGE_STRING = atomkraft 0.1
+PACKAGE_STRING = atomkraft 1.0.0
 PACKAGE_TARNAME = atomkraft
 PACKAGE_URL = 
-PACKAGE_VERSION = 0.1
+PACKAGE_VERSION = 1.0.0
 PATH_SEPARATOR = :
 SET_MAKE = 
 SHELL = /bin/sh
 STRIP = 
-VERSION = 0.1
+VERSION = 1.0.0
 abs_builddir = /home/dand/Public/Programs/Chess/ATOMKRAFT
 abs_srcdir = /home/dand/Public/Programs/Chess/ATOMKRAFT
 abs_top_builddir = /home/dand/Public/Programs/Chess/ATOMKRAFT
@@ -271,9 +271,8 @@ top_build_prefix =
 top_builddir = .
 top_srcdir = .
 ACLOCAL_AMFLAGS = --install -I m4
-EXTRA_DIST = scripts/wrap-compiler-for-flag-check
+EXTRA_DIST = atomicdata.h bitboard.h bitcount.h book.h create_book.h debug.h endgame.h evaluate.h fics.h history.h lock.h main.h material.h misc.h movegen.h move.h movepick.h pawns.h pgn.h position.h psqtab.h rkiss.h search.h simple_search.h thread.h timeman.h tt.h tuning.h types.h ucioption.h scripts/wrap-compiler-for-flag-check
 atomkraft_SOURCES = atomicdata.cpp bitbase.cpp bitboard.cpp book.cpp create_book.cpp debug.cpp endgame.cpp evaluate.cpp main.cpp main_uci.cpp material.cpp misc.cpp move.cpp movegen.cpp movepick.cpp pawns.cpp pgn.cpp position.cpp search.cpp simple_search.cpp thread.cpp timeman.cpp tt.cpp tuning.cpp types.cpp uci.cpp ucioption.cpp
-atomkraft_LDADD = -lstdc++ -lpthread
 all: all-am
 
 .SUFFIXES:

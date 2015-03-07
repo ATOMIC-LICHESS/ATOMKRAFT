@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.63)
-AC_INIT([atomkraft], [0.1])
+AC_INIT([atomkraft], [1.0.0])
 AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([main.cpp])
 
@@ -10,8 +10,8 @@ AC_CONFIG_SRCDIR([main.cpp])
 AC_PROG_CXX
 
 # Checks for libraries.
-AC_CHECK_LIB([m], [main])
 AC_CHECK_LIB([stdc++], [main])
+AC_CHECK_LIB([m], [floor])
 AC_CHECK_LIB([pthread], [pthread_create])
 
 # Checks for header files.
