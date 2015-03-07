@@ -1949,7 +1949,7 @@ split_point_start: // At split points actual search starts from here
 
     std::stringstream s;
     int t = current_search_time();
-    int us = current_cpu_usage();
+    int64_t us = int64_t(current_cpu_usage()); // mult by 1000
     HACK_NPS = t>0 ? (nodes*1000)/t : 0;
     s << " nodes " << nodes << " nps " << HACK_NPS << " time " << t;
     if (t>1000) s << " cpuload " << (t>0 ? (1000*us)/t : 0)
