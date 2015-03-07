@@ -100,6 +100,7 @@ OptionsMap::OptionsMap() {
   o["Emergency Move Time"] = UCIOption(70, 0, 5000);
   o["Minimum Thinking Time"] = UCIOption(0, 0, 5000);
   o["UCI_Chess960"] = UCIOption(false);
+  o["UCI_ChessAtomic"] = UCIOption(true);
   o["UCI_AnalyseMode"] = UCIOption(false);
 
   // Set some SMP parameters accordingly to the detected CPU count

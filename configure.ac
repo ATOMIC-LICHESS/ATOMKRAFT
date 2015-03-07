@@ -15,6 +15,7 @@ AC_CHECK_LIB([stdc++], [main])
 AC_CHECK_LIB([pthread], [pthread_create])
 
 # Checks for header files.
+AC_HEADER_ASSERT
 AC_HEADER_STDC
 AC_CHECK_HEADERS([stdlib.h string.h sys/time.h])
 
