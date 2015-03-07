@@ -103,6 +103,7 @@ public:
   ~TranspositionTable();
   void set_size(size_t mbSize);
   void clear();
+  uint32_t full(int64_t x) const;
   void store(const Key posKey, Value v, ValueType type, Depth d, Move m, Value statV, Value kingD);
   TTEntry* probe(const Key posKey) const;
   void new_search();

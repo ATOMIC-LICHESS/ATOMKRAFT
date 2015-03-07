@@ -134,6 +134,21 @@ TTEntry* TranspositionTable::probe(const Key posKey) const {
 }
 
 
+// Taken from ComStock
+// IvanHoe "hashfull" approximation permill // generation equals "epoch"
+uint32_t TranspositionTable::full(int64_t x) const {
+  uint32_t c = 0;
+  uint32_t w = (uint32_t) (x % size); // size is Cluster count
+  for (unsigned int k = 0; k < 1000; k++)
+    {
+      w = (w * 0x1234567 + 0xfedcba9) % size;
+      if (entries[w].data[w%ClusterSize].generation() == generation)
+        c++;
+    }
+  return c;
+}
+
+
 /// TranspositionTable::new_search() is called at the beginning of every new
 /// search. It increments the "generation" variable, which is used to
 /// distinguish transposition table entries from previous searches from
