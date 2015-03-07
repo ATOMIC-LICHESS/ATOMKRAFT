@@ -147,7 +147,6 @@ uint32_t TranspositionTable::full(int64_t x) const {
       if (entries[w].data[k%ClusterSize].generation() == generation)
         c++;
     }
-  cout << "DONE " << c << endl;
   return c;
 }
 
