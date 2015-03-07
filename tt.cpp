@@ -54,6 +54,7 @@ void TranspositionTable::set_size(size_t mbSize) {
   if (newSize == size)
       return;
 
+  generation = 0;
   size = newSize;
   delete [] entries;
   entries = new (std::nothrow) TTCluster[size];
@@ -73,6 +74,7 @@ void TranspositionTable::set_size(size_t mbSize) {
 
 void TranspositionTable::clear() {
 
+  generation = 0;
   memset(entries, 0, size * sizeof(TTCluster));
 }
 
@@ -142,9 +144,10 @@ uint32_t TranspositionTable::full(int64_t x) const {
   for (unsigned int k = 0; k < 1000; k++)
     {
       w = (w * 0x1234567 + 0xfedcba9) % size;
-      if (entries[w].data[w%ClusterSize].generation() == generation)
+      if (entries[w].data[k%ClusterSize].generation() == generation)
         c++;
     }
+  cout << "DONE " << c << endl;
   return c;
 }
 
