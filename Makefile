@@ -104,6 +104,7 @@ am_atomkraft_OBJECTS = atomicdata.$(OBJEXT) bitbase.$(OBJEXT) \
 	tuning.$(OBJEXT) types.$(OBJEXT) uci.$(OBJEXT) \
 	ucioption.$(OBJEXT)
 atomkraft_OBJECTS = $(am_atomkraft_OBJECTS)
+atomkraft_DEPENDENCIES =
 AM_V_P = $(am__v_P_$(V))
 am__v_P_ = $(am__v_P_$(AM_DEFAULT_VERBOSITY))
 am__v_P_0 = false
@@ -269,8 +270,9 @@ target_alias =
 top_build_prefix = 
 top_builddir = .
 top_srcdir = .
+ACLOCAL_AMFLAGS = --install -I m4
+EXTRA_DIST = scripts/wrap-compiler-for-flag-check
 atomkraft_SOURCES = atomicdata.cpp bitbase.cpp bitboard.cpp book.cpp create_book.cpp debug.cpp endgame.cpp evaluate.cpp main.cpp main_uci.cpp material.cpp misc.cpp move.cpp movegen.cpp movepick.cpp pawns.cpp pgn.cpp position.cpp search.cpp simple_search.cpp thread.cpp timeman.cpp tt.cpp tuning.cpp types.cpp uci.cpp ucioption.cpp
-atomkraft_DEPENDENCIES = Makefile
 atomkraft_LDADD = -lstdc++ -lpthread
 all: all-am
 
