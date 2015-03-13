@@ -19,6 +19,10 @@ all: depend atomkraft
 	g++ $(OPTIONS) -o $@ -c $<
 atomkraft: $(HEADERS) $(OBJS) Makefile
 	g++ -o atomkraft $(OBJS) -lm -lstdc++ -lpthread
+windows: # well, this works for me (direct, no *.o), with 2 align warnings
+	/usr/bin/i686-w64-mingw32-gcc -g -O3 \
+         -DNDEBUG -DWIN32_BUILD -D_MSC_VER \
+         -o ATOMKRAFT.exe *.cpp -static -lstdc++ -lpthread
 archive:
 	tar cf ATOMKRAFT.tar $(SRCS) $(HEADERS) Makefile
 depend: $(SRCS) $(HEADERS)
