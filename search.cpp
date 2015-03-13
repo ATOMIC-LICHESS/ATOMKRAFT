@@ -479,7 +479,7 @@ bool think(Position& pos, const SearchLimits& limits, Move searchMoves[], Move& 
   // Write final search statistics and close log file
   if (LogFile.is_open())
   {
-      int t = current_search_time();
+      int64_t t = current_search_time();
 
       LogFile << "Nodes: "          << pos.nodes_searched()
               << "\nNodes/second: " << (t > 0 ? pos.nodes_searched() * 1000 / t : 0)
@@ -1948,7 +1948,7 @@ split_point_start: // At split points actual search starts from here
   std::string speed_to_uci(int64_t nodes) {
 
     std::stringstream s;
-    int t = current_search_time();
+    int64_t t = current_search_time();
     int64_t us = int64_t(current_cpu_usage()); // mult by 1000
     HACK_NPS = t>0 ? (nodes*1000)/t : 0;
     s << " nodes " << nodes << " nps " << HACK_NPS << " time " << t;
@@ -1976,7 +1976,7 @@ split_point_start: // At split points actual search starts from here
   void poll(const Position& pos) {
 
     static int lastInfoTime;
-    int t = current_search_time();
+    int64_t t = current_search_time();
     // this was *user* time so needed parallel accounting!
     
     //NEW cout << "POLL" << endl;
