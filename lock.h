@@ -43,13 +43,13 @@ typedef pthread_cond_t WaitCondition;
 #undef WIN32_LEAN_AND_MEAN
 
 // Default fast and race free locks and condition variables
-#if !defined(OLD_LOCKS)
+#if 0 // !defined(OLD_LOCKS) // I can't get these to work in Atomkraft
 
 typedef SRWLOCK Lock;
 typedef CONDITION_VARIABLE WaitCondition;
 
 #  define lock_init(x) InitializeSRWLock(x)
-#  define lock_grab(x) AcquireSRWLockExclusive(x)
+#  define lock_grab(x) AcquireSRWLockExclusive(x) /* this is undefined? */
 #  define lock_release(x) ReleaseSRWLockExclusive(x)
 #  define lock_destroy(x) (x)
 #  define cond_destroy(x) (x)
@@ -59,7 +59,7 @@ typedef CONDITION_VARIABLE WaitCondition;
 
 // Fallback solution to build for Windows XP and older versions, note that
 // cond_wait() is racy between lock_release() and WaitForSingleObject().
-#else
+#else // so these are used instead
 
 typedef CRITICAL_SECTION Lock;
 typedef HANDLE WaitCondition;
