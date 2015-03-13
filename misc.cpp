@@ -144,7 +144,7 @@ int64_t get_system_time() {
 #if defined(_MSC_VER)
   struct _timeb t;
   _ftime(&t);
-  return int(t.time * 1000 + t.millitm);
+  return int64_t(t.time * 1000 + t.millitm);
 #else
 #include <sys/time.h>
   struct timeval t; int64_t x;
@@ -161,7 +161,27 @@ int64_t get_system_time() {
 int64_t get_cpu_usage()
 {
 #if defined(_MSC_VER)
-  return 1; // temporary
+  LARGE_INTEGER           t;
+  FILETIME            f;
+  double                  microseconds;
+  static LARGE_INTEGER    offset;
+  static double           frequencyToMicroseconds;
+  static int              initialized = 0;
+  static BOOL             usePerformanceCounter = 0;
+
+  if (!initialized)
+  { LARGE_INTEGER performanceFrequency;
+    usePerformanceCounter = QueryPerformanceFrequency(&performanceFrequency);
+    if (usePerformanceCounter)
+      { initialized=1;
+	QueryPerformanceCounter(&offset);
+	frequencyToMicroseconds =
+	  (double)performanceFrequency.QuadPart / 1000000.; } }
+  if (usePerformanceCounter) QueryPerformanceCounter(&t);
+  else return 1;
+  t.QuadPart -= offset.QuadPart;
+  microseconds = (double)t.QuadPart / frequencyToMicroseconds;
+  return microseconds / 1000;
 #else
   return clock() * (clock_t) 1000 / CLOCKS_PER_SEC;
 #endif
