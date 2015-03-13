@@ -34,6 +34,7 @@
 #define _CRT_SECURE_NO_DEPRECATE
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#include <time.h>
 #undef WIN32_LEAN_AND_MEAN
 // #include <sys/timeb.h>
 
@@ -140,7 +141,6 @@ void dbg_after()  { dbg_hit_on(true); dbg_hit_cnt0--; }
 /// get_system_time() returns the current system time, measured in milliseconds
 
 int64_t get_system_time() {
-
 #if defined(_MSC_VER)
   struct _timeb t;
   _ftime(&t);
@@ -160,30 +160,12 @@ int64_t get_system_time() {
 
 int64_t get_cpu_usage()
 {
+  static int64_t CLOCK_START = 0;
+  if (!CLOCK_START) CLOCK_START=clock();
 #if defined(_MSC_VER)
-  LARGE_INTEGER           t;
-  FILETIME            f;
-  double                  microseconds;
-  static LARGE_INTEGER    offset;
-  static double           frequencyToMicroseconds;
-  static int              initialized = 0;
-  static BOOL             usePerformanceCounter = 0;
-
-  if (!initialized)
-  { LARGE_INTEGER performanceFrequency;
-    usePerformanceCounter = QueryPerformanceFrequency(&performanceFrequency);
-    if (usePerformanceCounter)
-      { initialized=1;
-	QueryPerformanceCounter(&offset);
-	frequencyToMicroseconds =
-	  (double)performanceFrequency.QuadPart / 1000000.; } }
-  if (usePerformanceCounter) QueryPerformanceCounter(&t);
-  else return 1;
-  t.QuadPart -= offset.QuadPart;
-  microseconds = (double)t.QuadPart / frequencyToMicroseconds;
-  return microseconds / 1000;
+  return (clock()-CLOCK_START) * (clock_t) 1000 / CLOCKS_PER_SEC;
 #else
-  return clock() * (clock_t) 1000 / CLOCKS_PER_SEC;
+  return (clock()-CLOCK_START) * (clock_t) 1000 / CLOCKS_PER_SEC;
 #endif
 }
 
