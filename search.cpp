@@ -273,8 +273,8 @@ namespace {
   void update_gains(const Position& pos, Move move, Value before, Value after);
   void do_skill_level(Move* best, Move* ponder);
 
-  int current_search_time(int set = 0);
-  int current_cpu_usage(int set = 0);
+  int64_t current_search_time(int64_t set = 0);
+  int64_t current_cpu_usage(int64_t set = 0);
   std::string value_to_uci(Value v);
   std::string speed_to_uci(int64_t nodes);
   void poll(const Position& pos);
@@ -1904,9 +1904,9 @@ split_point_start: // At split points actual search starts from here
   // current_search_time() returns the number of milliseconds which have passed
   // since the beginning of the current search.
 
-  int current_search_time(int set) {
+  int64_t current_search_time(int64_t set) {
 
-    static int searchStartTime;
+    static int64_t searchStartTime;
 
     if (set)
         searchStartTime = set;
@@ -1914,9 +1914,9 @@ split_point_start: // At split points actual search starts from here
     return get_system_time() - searchStartTime;
   }
 
-  int current_cpu_usage(int set) {
+  int64_t current_cpu_usage(int64_t set) {
 
-    static int save;
+    static int64_t save;
     if (set) save=set;
     return get_cpu_usage()-save;
   }
