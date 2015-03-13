@@ -32,8 +32,10 @@
 #else
 
 #define _CRT_SECURE_NO_DEPRECATE
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-#include <sys/timeb.h>
+#undef WIN32_LEAN_AND_MEAN
+// #include <sys/timeb.h>
 
 #endif
 
@@ -158,7 +160,11 @@ int get_system_time() {
 
 int get_cpu_usage()
 {
+#if defined(_MSC_VER)
+  return 1; // temporary
+#else
   return clock() * (clock_t) 1000 / CLOCKS_PER_SEC;
+#endif
 }
 
 /// cpu_count() tries to detect the number of CPU cores
