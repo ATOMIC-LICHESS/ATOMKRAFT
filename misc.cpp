@@ -139,7 +139,7 @@ void dbg_after()  { dbg_hit_on(true); dbg_hit_cnt0--; }
 
 /// get_system_time() returns the current system time, measured in milliseconds
 
-int get_system_time() {
+int64_t get_system_time() {
 
 #if defined(_MSC_VER)
   struct _timeb t;
@@ -158,7 +158,7 @@ int get_system_time() {
 #endif
 }
 
-int get_cpu_usage()
+int64_t get_cpu_usage()
 {
 #if defined(_MSC_VER)
   return 1; // temporary
