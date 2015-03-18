@@ -32,8 +32,11 @@
 #else
 
 #define _CRT_SECURE_NO_DEPRECATE
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-#include <sys/timeb.h>
+#include <time.h>
+#undef WIN32_LEAN_AND_MEAN
+// #include <sys/timeb.h>
 
 #endif
 
@@ -137,12 +140,11 @@ void dbg_after()  { dbg_hit_on(true); dbg_hit_cnt0--; }
 
 /// get_system_time() returns the current system time, measured in milliseconds
 
-int get_system_time() {
-
+int64_t get_system_time() {
 #if defined(_MSC_VER)
   struct _timeb t;
   _ftime(&t);
-  return int(t.time * 1000 + t.millitm);
+  return int64_t(t.time * 1000 + t.millitm);
 #else
 #include <sys/time.h>
   struct timeval t; int64_t x;
@@ -156,9 +158,15 @@ int get_system_time() {
 #endif
 }
 
-int get_cpu_usage()
+int64_t get_cpu_usage()
 {
-  return clock() * (clock_t) 1000 / CLOCKS_PER_SEC;
+  static int64_t CLOCK_START = 0;
+  if (!CLOCK_START) CLOCK_START=clock();
+#if defined(_MSC_VER)
+  return (clock()-CLOCK_START) * (clock_t) 1000 / CLOCKS_PER_SEC;
+#else
+  return (clock()-CLOCK_START) * (clock_t) 1000 / CLOCKS_PER_SEC;
+#endif
 }
 
 /// cpu_count() tries to detect the number of CPU cores

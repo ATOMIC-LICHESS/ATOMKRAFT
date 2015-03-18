@@ -1,3 +1,5 @@
 Compile with "./build.sh" or read INSTALL for detailed instructions.
 
 Run with "./atomkraft"
+
+Also has "make windows" for cygwin, that builds ATOMKRAFT.exe
