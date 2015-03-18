@@ -20,6 +20,7 @@
 #include <cctype>
 #include <iostream>
 #include <sstream>
+#include <thread>
 
 #include "misc.h"
 #include "thread.h"
@@ -83,7 +84,7 @@ OptionsMap::OptionsMap() {
   o["Cowardice"] = UCIOption(100, 0, 200);
   o["Minimum Split Depth"] = UCIOption(4, 4, 7);
   o["Maximum Number of Threads per Split Point"] = UCIOption(5, 4, 8);
-  o["Threads"] = UCIOption(1, 1, MAX_THREADS);
+  o["Threads"] = UCIOption(std::thread::hardware_concurrency(), 1, MAX_THREADS);
   o["Use Sleeping Threads"] = UCIOption(false);
   o["Hash"] = UCIOption(256, 4, 8192);/////////////////////////////////////////////////
   o["Clear Hash"] = UCIOption(false, "button");

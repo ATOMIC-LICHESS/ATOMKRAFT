@@ -8,6 +8,7 @@ AC_CONFIG_SRCDIR([main.cpp])
 
 # Checks for programs.
 AC_PROG_CXX
+AX_CXX_COMPILE_STDCXX_11(,[mandatory])
 
 # Checks for libraries.
 AC_CHECK_LIB([stdc++], [main])
