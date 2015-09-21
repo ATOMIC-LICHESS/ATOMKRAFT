@@ -1,4 +1,4 @@
-Compile with "make"
+Compile with "./build.sh" or read INSTALL for detailed instructions.
 
 Run with "./atomkraft"
 
