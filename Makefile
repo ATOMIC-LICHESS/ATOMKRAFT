@@ -23,6 +23,10 @@ windows: # well, this works for me (direct, no *.o), with 2 align warnings
 	/usr/bin/i686-w64-mingw32-gcc -g -O3 \
          -DNDEBUG -DWIN32_BUILD -D_MSC_VER \
          -o ATOMKRAFT.exe *.cpp -static -lstdc++ -lpthread
+windows64:
+	/usr/bin/x86_64-w64-mingw32-gcc -g -O3 \
+          -DNDEBUG -DWIN64_BUILD -D_MSC_VER \
+         -o ATOMKRAFT64.exe *.cpp -static -lstdc++ -lwinpthread
 archive:
 	tar cf ATOMKRAFT.tar $(SRCS) $(HEADERS) Makefile
 depend: $(SRCS) $(HEADERS)
@@ -31,3 +35,5 @@ clean:
 	rm -f *.o atomkraft depend
 
 -include depend
+
+# note: all the versions (linux, win32, win64) give different node counts :(
